@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Cool Rooms</title>
+    <meta name="description" content="">
+</head>
+<body>
+    <h1>Cool Rooms</h1>
+    <div id="rooms-container"></div>
+    
+    <script>
+        let roomsContainer = document.getElementById('rooms-container');
+
+        let getRooms = async () => {
+            try {
+                let response = await fetch('http://127.0.0.1:8000/api/rooms/');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                let rooms = await response.json();
+                rooms.forEach(room => {
+                    let row = `<div><h3>${room.name}</h3></div>`;
+                    roomsContainer.innerHTML += row;
+                });
+            } catch (error) {
+                console.error('Error fetching rooms:', error);
+            }
+        };
+
+        // Call getRooms function when the page loads
+        window.onload = () => {
+            getRooms();
+        };
+    </script>
+</body>
+</html>
